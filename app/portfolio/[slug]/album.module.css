@@ -1,0 +1,16 @@
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  padding: 18px;
+}
+
+.photo {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .gallery { grid-template-columns: 1fr; }
+}

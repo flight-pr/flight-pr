@@ -94,6 +94,26 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 - `npm test`: build the starter and verify its rendered loading skeleton
 - `npm run db:generate`: generate Drizzle migrations after schema changes
 
+## Images
+
+Convert new images to compressed WebP before referencing them in the site:
+
+```bash
+npm run image:prepare -- source-media/home/photo.JPG public/media/home/photo.webp
+```
+
+The command limits the longest side to 2400 pixels and removes embedded
+metadata. Keep originals in `source-media/` and reference only the `.webp` file
+in `public/` from the app.
+
+## Supabase
+
+Create `.env.local` from `.env.example` and set the Project URL and publishable
+key from the Supabase dashboard's Connect panel. Restart the development server
+after changing these values. `createSupabaseClient()` in `lib/supabase.ts`
+provides the configured client when a feature needs it. Keep secret keys out of
+client code and source control.
+
 ## Learn More
 
 - [vinext Documentation](https://github.com/cloudflare/vinext)

@@ -17,10 +17,9 @@ test("renders the Flight P.R. home page", async () => {
 test("prerenders the main pages and portfolio entries", async () => {
   const pages = [
     "portfolio.html",
-    "portfolio/demo-roma.html",
-    "portfolio/demo-puglia.html",
-    "portfolio/demo-toscana.html",
-    "portfolio/demo-amalfi.html",
+    "portfolio/18-silvia.html",
+    "portfolio/18-viola.html",
+    "portfolio/60-fabio.html",
     "contatti.html",
     "privacy.html",
   ];

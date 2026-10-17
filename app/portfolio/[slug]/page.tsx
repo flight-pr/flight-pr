@@ -2,9 +2,20 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Play } from "lucide-react";
-import { DemoBadge, Eyebrow } from "@/components/ui";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { Eyebrow } from "@/components/ui";
 import { getProject, projects } from "@/data/projects";
-export function generateStaticParams() { return projects.map(p=>({slug:p.slug})); }
-export async function generateMetadata({ params }: { params: Promise<{slug:string}> }): Promise<Metadata> { const p=getProject((await params).slug); return { title: p ? `${p.title} — Progetto demo` : "Progetto", robots: p?.demo ? { index: false, follow: true } : undefined }; }
-export default async function ProjectPage({ params }: { params: Promise<{slug:string}> }) { const project=getProject((await params).slug); if(!project) notFound(); return <main id="main"><section className="project-hero"><Image src={project.cover} fill priority unoptimized sizes="100vw" alt={`${project.title}, immagine stock temporanea`}/><div className="hero-overlay"/><Link href="/portfolio" className="back-link"><ArrowLeft/> Portfolio</Link><div><DemoBadge/><h1>{project.title}</h1><p>{project.location} · {project.year}</p></div></section><section className="project-intro"><div><Eyebrow>Nota importante</Eyebrow><h2>Una storia<br/><em>dimostrativa.</em></h2></div><div><p>{project.description}</p><p>{project.credits}. Questo progetto non rappresenta un matrimonio realmente realizzato da Flight P.R.</p></div></section><section className="project-gallery">{project.images.map((src,i)=><figure key={`${src}-${i}`}><Image src={src} fill unoptimized sizes="(max-width: 768px) 100vw, 60vw" alt={`Gallery demo ${project.title}, immagine stock ${i+1}`}/></figure>)}</section><section className="video-placeholder"><Play/><Eyebrow>Project film</Eyebrow><h2>Video originale<br/>in arrivo.</h2><p>Componente predisposto per accogliere il film Flight P.R.</p></section><section className="simple-cta"><h2>Volete raccontare la vostra?</h2><Link href="/contatti" className="button-primary">Parliamone <ArrowRight/></Link></section></main>; }
+import styles from "./album.module.css";
+
+export function generateStaticParams() { return projects.map(project => ({ slug: project.slug })); }
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const project = getProject((await params).slug);
+  return { title: project ? `${project.title} — Album` : "Album", robots: project && project.images.length === 0 ? { index: false, follow: true } : undefined };
+}
+
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+  const project = getProject((await params).slug);
+  if (!project) notFound();
+  return <main id="main"><header className="page-header"><Link href="/portfolio" className="text-link"><ArrowLeft size={17} /> Tutti gli album</Link><Eyebrow>{project.occasion}</Eyebrow><h1>{project.title}</h1>{project.images.length === 0 ? <p>Le fotografie di questo album saranno disponibili a breve.</p> : null}</header>{project.images.length > 0 ? <section className={styles.gallery} aria-label={`Fotografie di ${project.title}`}>{project.images.map((src, index) => <figure key={src} className={styles.photo}><Image src={src} fill unoptimized sizes="(max-width: 768px) 100vw, 50vw" alt={`${project.title} — fotografia ${index + 1}`} /></figure>)}</section> : null}<section className="simple-cta"><h2>La prossima festa è la vostra?</h2><Link href="/contatti" className="button-primary">Parliamone <ArrowRight /></Link></section></main>;
+}

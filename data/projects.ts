@@ -1,11 +1,28 @@
-import { media } from "./media";
-export type ProjectCategory = "matrimoni" | "fotografia" | "film" | "drone" | "eventi";
-export type Project = { slug: string; title: string; location: string; year: string; category: ProjectCategory[]; cover: string; images: string[]; video: string; description: string; credits: string; demo: true };
-/** DEMO PROJECTS — names, dates and locations are placeholders, not client work. */
+export type Project = {
+  slug: string;
+  title: string;
+  occasion: string;
+  cover?: string;
+  images: string[];
+};
+
 export const projects: Project[] = [
-  { slug: "demo-roma", title: "Giulia & Matteo", location: "Roma", year: "2026", category: ["matrimoni", "fotografia"], cover: media.wedding.rome, images: [media.wedding.rome, media.wedding.ceremony, media.wedding.details, media.wedding.party], video: media.projectVideo, description: "Un racconto demo costruito per mostrare ritmo, luce e atmosfera della futura esperienza portfolio.", credits: "Contenuto dimostrativo · Fotografie stock temporanee", demo: true },
-  { slug: "demo-puglia", title: "Elena & Andrea", location: "Puglia", year: "2026", category: ["matrimoni", "film", "drone"], cover: media.wedding.puglia, images: [media.wedding.puglia, media.wedding.reception, media.drone, media.wedding.night], video: media.projectVideo, description: "Una storia demo tra materia, paesaggio e movimento, pronta ad accogliere il film originale.", credits: "Contenuto dimostrativo · Fotografie stock temporanee", demo: true },
-  { slug: "demo-toscana", title: "Sofia & Lorenzo", location: "Toscana", year: "2026", category: ["matrimoni", "fotografia"], cover: media.wedding.tuscany, images: [media.wedding.tuscany, media.wedding.couple, media.wedding.details, media.wedding.reception], video: media.projectVideo, description: "Una narrazione demo dal taglio editoriale, sospesa tra gesti spontanei e paesaggio italiano.", credits: "Contenuto dimostrativo · Fotografie stock temporanee", demo: true },
-  { slug: "demo-amalfi", title: "Chiara & Luca", location: "Costiera Amalfitana", year: "2026", category: ["matrimoni", "film", "drone"], cover: media.wedding.amalfi, images: [media.wedding.amalfi, media.drone, media.wedding.ceremony, media.wedding.party], video: media.projectVideo, description: "Un progetto demo pensato per mostrare l'incontro tra cinema, mare e destination wedding.", credits: "Contenuto dimostrativo · Fotografie stock temporanee", demo: true },
+  {
+    slug: "18-silvia",
+    title: "18 Silvia",
+    occasion: "Diciottesimo",
+    cover: "/media/portfolio/18/Silvia/1.webp",
+    images: [
+      "/media/portfolio/18/Silvia/1.webp",
+      "/media/portfolio/18/Silvia/2.webp",
+      "/media/portfolio/18/Silvia/3.webp",
+      "/media/portfolio/18/Silvia/4.webp",
+      "/media/portfolio/18/Silvia/5.webp",
+      "/media/portfolio/18/Silvia/6.webp",
+    ],
+  },
+  { slug: "18-viola", title: "18 Viola", occasion: "Diciottesimo", images: [] },
+  { slug: "60-fabio", title: "60 Fabio", occasion: "Sessantesimo", images: [] },
 ];
+
 export const getProject = (slug: string) => projects.find((project) => project.slug === slug);

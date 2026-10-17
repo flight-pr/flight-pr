@@ -1,0 +1,64 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  position: relative;
+  min-height: clamp(380px, 40vw, 600px);
+  overflow: hidden;
+  background: radial-gradient(ellipse at 80% 10%, #77371c, transparent 70%), #17120f;
+}
+
+.card:nth-child(2) {
+  background: radial-gradient(ellipse at 80% 10%, #663b52, transparent 70%), #161015;
+}
+
+.card:nth-child(3) {
+  background: radial-gradient(ellipse at 80% 10%, #5c5035, transparent 70%), #15140f;
+}
+
+.number {
+  position: absolute;
+  top: 8%;
+  left: 7%;
+  font-family: var(--font-serif), serif;
+  font-size: clamp(150px, 20vw, 320px);
+  line-height: 1;
+  letter-spacing: -.07em;
+  color: #ffffff12;
+  transition: transform .4s;
+}
+
+.card:hover .number {
+  transform: translateY(-8px);
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, #000a, transparent 70%);
+}
+
+.meta {
+  position: absolute;
+  inset: auto 28px 32px;
+}
+
+.index, .open {
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: .14em;
+}
+
+.index { color: #d8cfc4; }
+.meta h2 { margin: 18px 0 28px; font-size: clamp(34px, 3.5vw, 56px); font-weight: 500; letter-spacing: -.04em; }
+.open { display: flex; align-items: center; gap: 18px; }
+.card:focus-visible { outline: 2px solid var(--amber); outline-offset: 4px; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .card { min-height: 420px; }
+  .number { font-size: 260px; }
+}
