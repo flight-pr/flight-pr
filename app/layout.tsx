@@ -9,7 +9,7 @@ const brand = Montserrat({ variable: "--font-brand", subsets: ["latin"], weight:
 const display = Montserrat({ variable: "--font-display", subsets: ["latin"], weight: ["800"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://flightpr.net"),
+  metadataBase: new URL("https://flightpr.it"),
   title: { default: "Flight P.R. | Fotografia e Video per Matrimoni ed Eventi", template: "%s | Flight P.R." },
   description: "Fotografia, film e riprese drone per matrimoni, diciottesimi, compleanni, eventi e conferenze in tutta Italia.",
   alternates: { canonical: "/" },
@@ -24,6 +24,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="it"><body className={`${manrope.variable} ${serif.variable} ${brand.variable} ${display.variable}`}><a className="skip-link" href="#main">Vai al contenuto</a><SiteShell>{children}</SiteShell><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "ProfessionalService", name: "Flight P.R. — Flight Personal Recording", url: "https://flightpr.net", email: "info@flightpr.it", telephone: "+39 371 399 1692", vatID: "IT18244501005", areaServed: "Italia", sameAs: ["https://instagram.com/flight_pr"] }) }} /></body></html>
+    <html lang="it"><body className={`${manrope.variable} ${serif.variable} ${brand.variable} ${display.variable}`}><a className="skip-link" href="#main">Vai al contenuto</a><SiteShell>{children}</SiteShell><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "ProfessionalService", name: "Flight P.R. — Flight Personal Recording", url: "https://flightpr.it", email: "info@flightpr.it", telephone: "+39 371 399 1692", vatID: "IT18244501005", areaServed: "Italia", sameAs: ["https://instagram.com/flight_pr"] }) }} /></body></html>
   );
 }

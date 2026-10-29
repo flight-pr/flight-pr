@@ -22,7 +22,7 @@ export const projects: Project[] = [
     ],
   },
   { slug: "18-viola", title: "18 Viola", occasion: "Diciottesimo", images: [] },
-  { slug: "60-fabio", title: "60 Fabio", occasion: "Sessantesimo", images: [] },
+  { slug: "50-anniversario", title: "50° Anniversario", occasion: "Anniversario di matrimonio", images: [] },
 ];
 
 export const getProject = (slug: string) => projects.find((project) => project.slug === slug);

@@ -8,10 +8,10 @@ test("renders the Flight P.R. home page", async () => {
   const html = await readFile(new URL("index.html", buildRoot), "utf8");
 
   assert.match(html, /<html lang="it">/i);
-  assert.match(html, /<title>Flight P\.R\. \| Fotografia e Video Matrimonio<\/title>/i);
+  assert.match(html, /<title>Flight P\.R\. \| Fotografia e Video per Matrimoni ed Eventi<\/title>/i);
   assert.match(html, /Ci sono momenti/);
   assert.match(html, /Le immagini restano\./);
-  assert.match(html, /rel="canonical" href="https:\/\/flightpr\.net"/i);
+  assert.match(html, /rel="canonical" href="https:\/\/flightpr\.it"/i);
 });
 
 test("prerenders the main pages and portfolio entries", async () => {
@@ -37,7 +37,7 @@ test("generates public discovery metadata", async () => {
     readFile(new URL("manifest.webmanifest.body", buildRoot), "utf8"),
   ]);
 
-  assert.match(sitemap, /https:\/\/flightpr\.net\/portfolio/);
-  assert.match(robots, /Sitemap: https:\/\/flightpr\.net\/sitemap\.xml/);
+  assert.match(sitemap, /https:\/\/flightpr\.it\/portfolio/);
+  assert.match(robots, /Sitemap: https:\/\/flightpr\.it\/sitemap\.xml/);
   assert.equal(JSON.parse(manifest).name, "Flight P.R. — Flight Personal Recording");
 });

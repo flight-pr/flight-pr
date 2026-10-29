@@ -1,5 +1,13 @@
 # vinext-starter
 
+## Area staff Flight P.R.
+
+L’intranet è disponibile su `/intranet`: login riservato, CRM con pipeline e follow-up,
+trasferimenti temporanei Cloudflare R2, gestione del team e landing da template.
+Le immagini delle landing vengono caricate nel bucket dedicato del sito e convertite
+automaticamente in WebP; i file transfer mantengono il proprio bucket privato.
+Per configurare Supabase, R2, i domini separati su Vercel e la pulizia dei file, seguire [la guida di configurazione](docs/intranet.md).
+
 A clean full-stack starter running on
 [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
 Drizzle support.

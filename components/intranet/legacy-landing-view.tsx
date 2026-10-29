@@ -1,0 +1,28 @@
+import type { CSSProperties } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowUpRight, MapPin, Mail, Phone, Clock } from "lucide-react";
+import type { Landing } from "@/lib/intranet/types";
+import "./landing.css";
+type LandingContent = Omit<Landing, "id" | "created_at" | "updated_at" | "status" | "slug" | "title">;
+export function LegacyLandingView({ landing, embedded = false }: { landing: LandingContent; embedded?: boolean }) {
+  const safeHref = !Array.from(landing.cta_url).some((char) => char === "\\" || char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127) && /^\/(?!\/)|^https:\/\/|^mailto:|^tel:/.test(landing.cta_url) ? landing.cta_url : "/contatti";
+  const image = landing.image_url.startsWith("https://") ? landing.image_url : "";
+  const business = landing.template === "attivita";
+  const showcase = business || landing.template === "location";
+  const gallery = (landing.gallery || []).filter((photo) => photo.url.startsWith("https://"));
+  const cta = embedded ? <span className="lp-cta">{landing.cta_label}<ArrowUpRight size={19}/></span> : <a href={safeHref} className="lp-cta">{landing.cta_label}<ArrowUpRight size={19}/></a>;
+  return <div className={`lp-page lp-${landing.template} ${embedded ? "lp-embedded" : ""}`} style={{ "--lp-accent": /^#[0-9a-f]{6}$/i.test(landing.accent) ? landing.accent : "#f36a21" } as CSSProperties}>
+    <header className="lp-header">{business ? <span className="lp-logo lp-business-name">{landing.heading}</span> : embedded ? <span className="lp-logo">FLIGHT P.R.</span> : <Link href="/" className="lp-logo">FLIGHT P.R.</Link>}<span>{business ? landing.eyebrow : "FOTOGRAFIA · FILM · DRONE"}</span></header>
+    {showcase ? <section className={`lp-cover ${!image ? "lp-cover-empty" : ""}`}>
+      {image && <Image className="lp-cover-photo" src={image} alt="" fill unoptimized sizes="100vw" referrerPolicy="no-referrer" priority/>}
+      <div className="lp-cover-copy"><p className="lp-eyebrow">{landing.eyebrow}</p><h1>{landing.heading}</h1>{landing.location_address && <p className="lp-cover-address"><MapPin size={15}/>{landing.location_address}</p>}{cta}</div>
+      <span className="lp-cover-caption">{business ? "PASSIONE, OGNI GIORNO." : "UN LUOGO. INFINITE PROSPETTIVE."}</span>
+    </section> : <section className="lp-hero"><div className="lp-copy"><p className="lp-eyebrow">{landing.eyebrow}</p><h1>{landing.heading}</h1><p className="lp-description">{landing.description}</p>{cta}<span className="lp-signature">IL VOSTRO SGUARDO. LA NOSTRA PROSPETTIVA.</span></div><div className={`lp-media ${!image ? "lp-media-empty" : ""}`}>{image ? <Image src={image} alt={landing.heading} fill unoptimized sizes="(max-width: 700px) 100vw, 50vw" referrerPolicy="no-referrer"/> : <span>Ogni storia<br/>merita il proprio<br/><em>sguardo.</em></span>}<span className="lp-media-caption">FLIGHT PERSONAL RECORDING / ITALIA</span></div></section>}
+    {(showcase || landing.location_details) && <section className="lp-introduction"><div><p className="lp-eyebrow">{business ? "PIACERE DI CONOSCERTI" : "DENTRO LA STORIA"}</p><h2>{business ? "Il nostro lavoro, la tua esperienza." : "Un luogo da vivere. Uno sguardo da ricordare."}</h2></div><div><p className="lp-lead">{landing.description}</p>{landing.location_details && <p className="lp-description">{landing.location_details}</p>}</div></section>}
+    {!!landing.offerings?.length && <section className="lp-services"><p className="lp-eyebrow">{business ? "COSA POSSIAMO FARE PER TE" : "SPAZI & ESPERIENZE"}</p><div>{landing.offerings.map((item, i) => <article key={i}><span>{String(i + 1).padStart(2, "0")}</span><h3>{item.title}</h3><p>{item.description}</p></article>)}</div></section>}
+    {!!gallery.length && <section className="lp-gallery-section"><div className="lp-section-heading"><p className="lp-eyebrow">{business ? "IL NOSTRO MONDO" : "ATTRAVERSO IL NOSTRO OBIETTIVO"}</p><h2>{business ? "I dettagli fanno la differenza." : "La bellezza, nei dettagli."}</h2></div><div className="lp-gallery">{gallery.map((photo, i) => <figure key={i}><Image unoptimized width={1600} height={1200} sizes="(max-width: 700px) 100vw, 50vw" src={photo.url} alt={photo.caption || `${landing.heading} - scatto ${i + 1}`} loading="lazy" referrerPolicy="no-referrer"/>{photo.caption && <figcaption>{photo.caption}</figcaption>}</figure>)}</div></section>}
+    <section className="lp-contact-section"><div><p className="lp-eyebrow">{business ? "RESTIAMO IN CONTATTO" : "LA PROSSIMA STORIA PARTE DA QUI"}</p><h2>{business ? "Ti aspettiamo." : "Immagina il tuo prossimo evento."}</h2>{cta}</div><div className="lp-contact-details">{landing.location_address && <p><MapPin size={18}/><span>{landing.location_address}</span></p>}{landing.opening_hours && <p><Clock size={18}/><span>{landing.opening_hours}</span></p>}{landing.contact_email && <a href={`mailto:${landing.contact_email}`}><Mail size={18}/>{landing.contact_email}</a>}{landing.contact_phone && <a href={`tel:${landing.contact_phone.replace(/[^+\d]/g, "")}`}><Phone size={18}/>{landing.contact_phone}</a>}{!business && <p>Fotografia, film e riprese aeree.<br/>Il team Flight P.R. dà forma ai tuoi ricordi.</p>}</div></section>
+    <footer className="lp-footer"><span>{business ? `${landing.heading} · Sito dimostrativo a cura di Flight P.R.` : `© ${new Date().getFullYear()} Flight P.R. · P.IVA 18244501005`}</span>{embedded ? <span>Flight Personal Recording</span> : <div>{!business && <Link href="/privacy">Privacy</Link>}<Link href="/contatti">{business ? "Realizza il tuo sito" : "Contatti"} <ArrowUpRight size={13}/></Link></div>}</footer>
+  </div>;
+}

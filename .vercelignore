@@ -1,0 +1,13 @@
+.env*
+.git
+.next*
+node_modules
+.vercel
+.wrangler
+.vinext
+outputs
+work
+source-media
+coverage
+*.tsbuildinfo
+.DS_Store
