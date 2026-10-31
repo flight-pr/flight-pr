@@ -13,6 +13,7 @@ export function domainRoute(hostname: string, pathname: string): DomainRoute {
   }
   if (host === "app.flightpr.it") {
     if (staticAsset || pathname === "/robots.txt") return { kind: "next" };
+    if (pathname === "/veronica" || pathname === "/veronica/" || pathname.startsWith("/veronica/")) return { kind: "next" };
     if (pathname.startsWith("/lp/")) return { kind: "redirect", origin: LANDING_ORIGIN, path: pathname.slice(3) };
     if (/^\/[a-z0-9]+(?:-[a-z0-9]+)*\/?$/.test(pathname)) return { kind: "rewrite", path: `/lp${pathname.replace(/\/$/, "")}` };
     return { kind: "deny" };
