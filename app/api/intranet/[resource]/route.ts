@@ -48,9 +48,12 @@ export async function POST(request: Request, context: Context) {
       const input = staffInviteSchema.parse(body);
       const admin = adminDb();
       const base = process.env.APP_URL || new URL(request.url).origin;
-      const { data, error } = await admin.auth.admin.inviteUserByEmail(input.email, { data: { name: input.name }, redirectTo: staffActivationUrl(base) });
+      const { password, ...profileInput } = input;
+      const { data, error } = password
+        ? await admin.auth.admin.createUser({ email: input.email, password, email_confirm: true, user_metadata: { name: input.name } })
+        : await admin.auth.admin.inviteUserByEmail(input.email, { data: { name: input.name }, redirectTo: staffActivationUrl(base) });
       if (error || !data.user) throw new ApiError(400, "Invito non riuscito. Verifica che l’indirizzo non sia già registrato e che il servizio email sia configurato.");
-      const result = await admin.from("staff_profiles").insert({ id: data.user.id, ...input }).select().single();
+      const result = await admin.from("staff_profiles").insert({ id: data.user.id, ...profileInput }).select().single();
       if (result.error) { await admin.auth.admin.deleteUser(data.user.id); dbError(result.error); }
       return json(result.data, 201);
     }
