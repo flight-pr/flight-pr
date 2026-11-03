@@ -2,7 +2,7 @@ import { DASH_ORIGIN, LANDING_ORIGIN, SITE_ORIGIN, TRANSFER_ORIGIN } from "./sit
 export type DomainRoute = { kind: "redirect" | "rewrite"; path: string; origin?: string } | { kind: "deny" } | { kind: "next" };
 export function domainRoute(hostname: string, pathname: string): DomainRoute {
   const host = hostname.toLowerCase().split(":")[0];
-  const staticAsset = pathname.startsWith("/_next/") || /^\/(?:favicon(?:\.png|\.webp|\.ico)?|og\.png|media\/)/.test(pathname);
+  const staticAsset = pathname.startsWith("/_next/") || /^\/(?:favicon(?:\.png|\.webp|\.ico)?|manifest\.webmanifest|og\.png|media\/)/.test(pathname);
   if (["flightpr.net", "www.flightpr.net", "www.flightpr.it"].includes(host)) return { kind: "redirect", origin: SITE_ORIGIN, path: pathname };
   if (host === "dash.flightpr.it") {
     if (pathname === "/robots.txt") return { kind: "rewrite", path: "/private-robots" };

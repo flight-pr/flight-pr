@@ -52,7 +52,13 @@ export async function POST(request: Request, context: Context) {
       const { data, error } = password
         ? await admin.auth.admin.createUser({ email: input.email, password, email_confirm: true, user_metadata: { name: input.name } })
         : await admin.auth.admin.inviteUserByEmail(input.email, { data: { name: input.name }, redirectTo: staffActivationUrl(base) });
-      if (error || !data.user) throw new ApiError(400, "Invito non riuscito. Verifica che l’indirizzo non sia già registrato e che il servizio email sia configurato.");
+      if (error || !data.user) {
+        const reason = error?.message.toLowerCase() || "";
+        if (reason.includes("already registered") || reason.includes("already been registered") || reason.includes("already exists")) throw new ApiError(409, "Esiste già un account con questo indirizzo email.");
+        if (reason.includes("password") && (reason.includes("weak") || reason.includes("short") || reason.includes("characters"))) throw new ApiError(400, "La password non rispetta i requisiti impostati per il workspace.");
+        if (password) throw new ApiError(400, "Creazione account non riuscita. Verifica l’indirizzo email, la password e le impostazioni di autenticazione Supabase.");
+        throw new ApiError(400, "Invito non riuscito. Verifica che l’indirizzo non sia già registrato e che il servizio email sia configurato.");
+      }
       const result = await admin.from("staff_profiles").insert({ id: data.user.id, ...profileInput }).select().single();
       if (result.error) { await admin.auth.admin.deleteUser(data.user.id); dbError(result.error); }
       return json(result.data, 201);
